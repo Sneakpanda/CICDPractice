@@ -1,0 +1,37 @@
+pipeline {
+        // Run this pipeline on any available executor/agent
+        agent any
+
+        stages {
+                stage('Build') {
+                        steps {
+                                echo 'Compiling code...'
+                                // sh 'mvn clean package' // Example shell command
+                        }
+                }
+                stage('Test') {
+                        steps {
+                                echo 'Running unit tests...'
+                                // sh 'mvn test'
+                        }
+                }
+                stage('Deploy') {
+                        steps {
+                                echo 'Deploying to staging environment...'
+                        }
+                }
+        }
+
+        // Post-actions that execute depending on build status
+        post {
+                always {
+                        echo 'Cleaning up workspace...'
+                }
+                success {
+                        echo 'Pipeline completed successfully!'
+                }
+                failure {
+                        echo 'Pipeline failed. Check logs.'
+                }
+        }
+}
